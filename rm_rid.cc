@@ -1,116 +1,76 @@
-//
-// File:        rm_rid.cc
-// Description: RID class implementation
-// Author:      Hyunjung Park (hyunjung@stanford.edu)
-//
-
 #include "rm_internal.h"
 
-// 
-// RID
-//
-// Desc: Default Constructor
-//
+// 기본 생성자
 RID::RID()
 {
    pageNum = 0;
    slotNum = 0;
 }
 
-// 
-// RID
-//
-// Desc: Constructor
-//
+// 파라미터를 가지는 생성자
 RID::RID(PageNum _pageNum, SlotNum _slotNum)
 {
    pageNum = _pageNum;
    slotNum = _slotNum;
 }
+
+// 복사 생성자
 RID::RID(const RID &rid)
 {
     pageNum = rid.pageNum;
     slotNum = rid.slotNum;
 }
-//
-// ~RID
-// 
-// Desc: Destructor
-//
+
+// 소멸자
 RID::~RID()
 {
-   // Don't need to do anything
 }
 
-//
-// operator=
-//
-// Desc: overload = operator
-// In:   rid - rid object to set this object equal to
-// Ret:  reference to *this
-//
+// 대입 연산자 오버로딩
 RID& RID::operator= (const RID &rid)
 {
-   // Test for self-assignment
+   // 자기 자신에 대한 대입인지 확인
    if (this != &rid) {
-      // Just copy the members since there is no memory allocation involved
+      // 메모리 할당이 없으므로 멤버 변수만 복사
       this->pageNum = rid.pageNum;
       this->slotNum = rid.slotNum;
    }
 
-   // Return a reference to this
+   // this의 참조를 반환
    return (*this);
 }
 
-//
-// operator==
-//
-// Desc: overload == operator
-// In:   rid - rid object to be compared with this object
-// Ret:  true or false
-//
+// 동등성 연산자 오버로딩
 bool RID::operator==(const RID &rid) const
 {
+   // 페이지 번호와 슬롯 번호가 모두 같은지 확인
    return (this->pageNum == rid.pageNum) && (this->slotNum == rid.slotNum);
 }
 
-//
-// GetPageNum
-// 
-// Desc: Return page number
-// Out:  _pageNum - set to this RID's page number
-// Ret:  RM_INVIABLERID
-//
+// 페이지 번호 얻기
 RC RID::GetPageNum(PageNum &_pageNum) const
 {
-   // Should be a viable record identifier
+   // 유효한 레코드 식별자인지 확인
    if (pageNum == 0)
       return (RM_INVIABLERID);
 
-   // Set the parameter to this RID's page number
+   // 파라미터로 이 RID의 페이지 번호를 설정
    _pageNum = pageNum;    
 
-   // Return ok
+   // 정상적으로 리턴
    return (0);
 }
 
-//
-// GetSlotNum
-// 
-// Desc: Return slot number
-// Out:  _slotNum - set to this RID's slot number
-// Ret:  RM_INVIABLERID
-//
+// 슬롯 번호 얻기
 RC RID::GetSlotNum(SlotNum &_slotNum) const
 {
-   // Should be a viable record identifier
+   // 유효한 레코드 식별자인지 확인
    if (pageNum == 0)
       return (RM_INVIABLERID);
 
-   // Set the parameter to this RID's slot number
+   // 파라미터로 이 RID의 슬롯 번호를 설정
    _slotNum = slotNum;    
 
-   // Return ok
+   // 정상적으로 리턴
    return (0);
 }
-
